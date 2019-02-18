@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions/actions';
 
 import {View, Text, TextInput, Button, Alert} from 'react-native';
-
+import Spinner from '../Components/Spinner';
 
 
 
 class LoginForm extends Component {
+
 
     onEmailChange(text){
       this.props.emailChanged(text);
@@ -20,6 +21,25 @@ class LoginForm extends Component {
     onButtonPress(){
       const { email, password } = this.props;
       this.props.loginUser({email, password})
+    }
+
+    renderError() {
+      if (this.props.error){
+        return (
+          <View style={{ backgroundColor: 'white'}}>
+          <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+          </View>
+        );
+      }
+    }
+
+    renderButton(){
+      if (this.props.loading){
+        return <Spinner size='large'/>;
+      }
+      else {
+        return <Button title="Login" color="#4B2765" onPress={this.onButtonPress.bind(this)} />
+      }
     }
 
   render(){
@@ -42,13 +62,10 @@ class LoginForm extends Component {
             onChangeText={this.onPasswordChange.bind(this)}
             value={this.props.password}
          />
-          <Button
-           title="Login"
-           color="#4B2765"
-           onPress={this.onButtonPress.bind(this)}
-          />
 
+          {this.renderButton()}
 
+          {this.renderError()}
       </View>
 
     );
@@ -75,6 +92,11 @@ const styles = {
     borderColor: '#A18AB1',
     width: 350,
     marginBottom: 10,
+  },
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red',
   }
 }
 
@@ -82,7 +104,9 @@ const styles = {
 const mapStateToProps = state => {
   return {
     email: state.Auth.email,
-    password: state.Auth.password
+    password: state.Auth.password,
+    error: state.Auth.error,
+    loading: state.Auth.loading,
   }
 }
 
