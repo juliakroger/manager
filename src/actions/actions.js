@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import * as act from './actionsTypes';
-
+import { Actions } from 'react-native-router-flux';
 
 export const emailChanged = (text) => {
 	return {
@@ -36,6 +36,7 @@ const loginUserSucess = (dispatch, user) => {
 		type: act.LOGIN_USER_SUCESS,
 		payload: user
 	})
+	Actions.main();
 }
 
 

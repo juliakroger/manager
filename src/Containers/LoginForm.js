@@ -47,7 +47,6 @@ class LoginForm extends Component {
     const { container, textStyle, Input } = styles;
     return (
       <View style = {container}>
-        <Text style={textStyle}>Login/Register</Text>
         <TextInput
             style = {Input}
             autoCapitalize = 'none'
